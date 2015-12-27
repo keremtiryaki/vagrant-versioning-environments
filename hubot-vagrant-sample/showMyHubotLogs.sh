@@ -1,0 +1,1 @@
+tail -f /var/log/upstart/myhubot.log

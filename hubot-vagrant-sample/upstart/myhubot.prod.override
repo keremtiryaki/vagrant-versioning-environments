@@ -1,0 +1,5 @@
+setuid ubuntu
+
+env HOME="/home/ubuntu"
+
+env HUBOT_SLACK_TOKEN=xoxb-SLACK-TOKEN

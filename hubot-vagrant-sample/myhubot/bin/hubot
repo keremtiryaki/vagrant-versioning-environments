@@ -1,0 +1,7 @@
+#!/bin/sh
+
+#set -e
+
+#export PATH="node_modules/.bin:node_modules/hubot/node_modules/.bin:$PATH"
+
+#exec HUBOT_SLACK_TOKEN= node_modules/.bin/hubot --name "myhubot" --adapter slack "$@"

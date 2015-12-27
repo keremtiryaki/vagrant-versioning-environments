@@ -1,0 +1,5 @@
+setuid vagrant
+
+env HOME="/home/vagrant"
+
+env HUBOT_SLACK_TOKEN=xoxb-SLACK-TOKEN

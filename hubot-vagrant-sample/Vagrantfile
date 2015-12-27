@@ -1,0 +1,43 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure(2) do |config|
+  
+  def provisioning(config, shell_arguments)
+    config.vm.provision "shell", path: "provision.sh", args: shell_arguments
+  end
+
+  excludes = [".git/", "myhubot/node_modules"]
+  config.vm.synced_folder ".", "/vagrant", type: "rsync", rsync__exclude: excludes, rsync_exclude: excludes
+
+  config.vm.define "dev" do |dev|
+    dev.vm.box = "ubuntu/trusty64"
+    dev.vm.hostname = "hubot-dev"
+    provisioning(dev, ["dev", "vagrant"])
+  end
+
+  config.vm.define "prod" do |prod|
+    
+    prod.vm.box = "dummy"
+    provisioning(prod, ["prod", "ubuntu"])
+    prod.vm.provider "aws" do |aws, override| 
+           
+      aws.region_config "us-east-1", :ami => "ami-7b386c11" #2015-12-ubuntu-14.04 update as you wish
+
+      aws.region = "us-east-1"
+      aws.tags = {
+        'Name' => 'Hubot'
+      }
+      aws.instance_type = "t1.micro"
+
+      override.ssh.username = "ubuntu"
+      aws.keypair_name = "key-pair-name" #edit
+      override.ssh.private_key_path = "/path/to/key-pair.pem" #edit
+      #aws.security_groups = ""
+
+      aws.access_key_id = "access_key_id" #edit
+      aws.secret_access_key = "secret_access_key" #edit
+
+    end
+  end
+end
